@@ -1,0 +1,2 @@
+gem 'mongoid', '~> 7.3.0'
+gem 'fixturizer'

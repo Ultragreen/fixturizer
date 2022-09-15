@@ -1,0 +1,2 @@
+require './app'
+require 'fixturizer/rake/manage'

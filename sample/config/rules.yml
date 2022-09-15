@@ -1,0 +1,30 @@
+---
+:fixtures:
+  :type: :mongoid
+  :rules:
+    :generation:
+  :models:
+    :order:
+      - :posts
+      - :comments
+    :definition:
+      :posts:
+        :class: Sample::Models::Post
+        :unicity: :title
+        :collection:
+          - :attributes:
+              :title: Mon premier post
+              :body: Le corp de mon post
+      :comments:
+        :class: Sample::Models::Comment
+        :unicity: :name
+        :collection:
+          - :attributes:
+              :name: Pierre
+              :message: Super post
+            :links:
+              - :collection: :posts
+                :fkey: :post
+                :index:
+                  :at: 1
+                :pkey: id
