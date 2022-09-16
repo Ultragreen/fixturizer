@@ -1,4 +1,3 @@
-require 'sinatra'
 require 'mongoid'
 require 'fixturizer'
 require_relative 'models/init'

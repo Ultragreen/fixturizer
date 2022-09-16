@@ -20,7 +20,7 @@ module Fixturizer
           elsif element[:index].include?(:search_key)
             raise 'Links configuration failure' unless element[:index].include?(:for)
 
-            result[element[:fkey]] = model.where({ element[:index][:search_key] => element[:index][:for] }).first[element[:pkey]]
+            result[element[:fkey]] = model.where({ element[:index][:search_key] => element[:index][:for] }).take[element[:pkey]]
           else
             raise 'Links configuration failure'
           end
