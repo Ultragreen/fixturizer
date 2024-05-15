@@ -1,0 +1,71 @@
+---
+:fixtures:
+  :datasets:
+    :set1:
+      :rules:
+        :body: :dataset_body
+      :records:
+        :name: test dataset
+        :body: test placeholderbody
+    :set2:
+      :records:
+        :name: test dataset 2
+        :body: test body 2
+    :set3:
+      :records:
+        :name: test dataset 2
+        :body: 
+      :rules:
+        :body: :dataset_body
+    :set4:
+      :records:
+        :name: test dataset 2
+        :body: test preserved
+      :rules:
+        :preserve: true
+        :body: :dataset_body
+    :set5:
+      :records:
+        :name: test dataset 2
+        :nested:
+          :body: 
+      :rules:
+        :body: :dataset_body
+  :rules:
+    :generation:
+      :dataset_body: 
+        :proc: "SecureRandom.urlsafe_base64(64)"
+      :body_data:
+        :preserve: true
+        :proc: "SecureRandom.urlsafe_base64(64)"
+  :models:
+    :type: :mongoid
+    :order:
+      - :posts
+      - :comments
+    :definitions:
+      :posts:
+        :rules:
+          :body: :body_data
+        :class: Post
+        :unicity: :id
+        :collection:
+          - :attributes:
+              :title: First post Title
+              :body: First Post Body
+          - :attributes:
+              :title: Second post Title
+              :body: 
+      :comments:
+        :class: Comment
+        :unicity: :id
+        :collection:
+          - :attributes:
+              :name: test name
+              :message: test message
+            :links:
+              - :collection: :posts
+                :index:
+                  :at: 1
+                :fkey: :post
+                :pkey: :id

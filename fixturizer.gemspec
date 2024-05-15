@@ -3,8 +3,8 @@ require_relative 'lib/fixturizer/version'
 Gem::Specification.new do |spec|
   spec.name          = "fixturizer"
   spec.version       = Fixturizer::VERSION
-  spec.authors       = ["Pierre Alphonse"]
-  spec.email         = ["pierre.alphonse@orange.com"]
+  spec.authors       = ["Pierre ALPHONSE","Romain GEORGES"]
+  spec.email         = ["pierre.alphonse@orange.com", "romain@ultragreen.net"]
 
   spec.summary       = "Ruby fixturizer for databases models"
   spec.description   = "Ruby fixturizer for databases models"

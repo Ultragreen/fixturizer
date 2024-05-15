@@ -34,26 +34,50 @@ module Fixturizer
     end
   end
 
-  class Engine
+
+  class Configuration
+
+    attr_reader :rules, :models, :datasets
+
+    def initialize(filename:)
+      @content = read_file(filename: filename)
+      @rules = @content[:fixtures].dig(:rules,:generation)
+      @models = @content[:fixtures][:models][:definitions]
+      @datasets = @content[:fixtures][:models]
+    end
+
+
+    private
+    def read_file(filename:)
+      return YAML.load(File::readlines(filename).join)
+    end
+
+
+  end
+
+  class DatasetEngine
+
+    def initialize(dataset: )
+      @dataset = dataset
+      @configuration = Fixturizer::Configuration::new filename: './config/rules.yml'
+    end
+  end
+
+  class ModelsEngine
     ADAPTERS = {:mongoid => ::Fixturizer::Adapters::Mongoid}
 
     attr_reader :generated
 
     def initialize(filename:)
       @rules = read_rules(filename: filename)
-      @generations = @rules[:fixtures][:rules][:generation]
-      @models = @rules[:fixtures][:models][:definition]
+      @generations = @rules[:fixtures].dig(:rules,:generation)
+      @models = @rules[:fixtures][:models][:definitions]
       @order = @rules[:fixtures][:models].include?(:order) ? @rules[:fixtures][:models][:order] : false
       @generated = Hash::new
-      self.extend ADAPTERS[@rules[:fixtures][:type]]
+      self.extend ADAPTERS[@rules[:fixtures][:models][:type]]
     end
 
-    def generate_from(rule:)
-      rule = @generations[rule]
-      myproc = eval("lambda { #{rule[:proc]} } ")
-      return myproc.call
-    end
-
+ 
     def link_data
     end
 
@@ -98,8 +122,11 @@ module Fixturizer
       data = @models[name][:collection].dup
       data.each do |item|
 
-        item[:attributes].each do |key, _value|
-          item[:attributes][key] = generate_from(rule: @models[name][:rules][key]) if @models[name].include?(:rules) && @models[name][:rules].include?(key)
+        item[:attributes].each do |key, _value| 
+          if @models[name].include?(:rules) && @models[name][:rules].include?(key) then
+            rule = @generations[@models[name][:rules][key]]
+            item[:attributes][key] = eval("lambda { #{rule[:proc]} } ").call unless rule.dig(:preserve) == true and !item[:attributes][key].nil?
+          end
         end
 
       end

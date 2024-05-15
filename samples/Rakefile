@@ -1,0 +1,23 @@
+# frozen_string_literal: true
+
+require 'rspec/core/rake_task'
+require_relative './app'
+
+RSpec::Core::RakeTask.new do |task|
+  task.pattern = 'spec/**/*_spec.rb'
+end
+
+
+desc 'List defined routes'
+task :routes do
+
+Application.routes.map do |method, routes|
+    routes.map { |r| r.first.to_s }.map do |route|
+      "#{method.rjust(7, ' ')} #{route}"
+    end
+  end.flatten.sort.each do |route|
+    puts route
+  end
+end
+
+require 'fixturizer/rake/manage'
