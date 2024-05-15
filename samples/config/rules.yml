@@ -3,41 +3,58 @@
   :datasets:
     :set1:
       :rules:
-        :body: :dataset_body
-      :records:
+        :body: :body
+      :definition:
         :name: test dataset
         :body: test placeholderbody
     :set2:
-      :records:
-        :name: test dataset 2
-        :body: test body 2
-    :set3:
-      :records:
+      :definition:
         :name: test dataset 2
         :body: 
       :rules:
-        :body: :dataset_body
-    :set4:
-      :records:
-        :name: test dataset 2
+        :body: :body
+    :set3:
+      :definition:
+        :name: test dataset 3 
         :body: test preserved
       :rules:
-        :preserve: true
-        :body: :dataset_body
-    :set5:
-      :records:
-        :name: test dataset 2
+        :body: :preserve_body
+    :set4:
+      :definition:
+        :name: test dataset 4
         :nested:
           :body: 
       :rules:
-        :body: :dataset_body
+        :body: :body
+    :set5:
+      :definition:
+        :name: test dataset 5
+        :list:
+         - 1
+         - :body: 
+         - 3
+        :nested:
+          :body: 
+      :rules:
+        :body: :body
+    :set6:
+      :definition:
+        - :name: test dataset 6
+          :list:
+            - 1
+            - :body: 
+            - 3
+          :nested:
+            :body:
+        - "deux" 
+      :rules:
+        :body: :body
   :rules:
-    :generation:
-      :dataset_body: 
-        :proc: "SecureRandom.urlsafe_base64(64)"
-      :body_data:
-        :preserve: true
-        :proc: "SecureRandom.urlsafe_base64(64)"
+    :body: 
+      :proc: "SecureRandom.urlsafe_base64(64)"
+    :preserve_body:
+      :preserve: true
+      :proc: "SecureRandom.urlsafe_base64(64)"
   :models:
     :type: :mongoid
     :order:
@@ -46,7 +63,7 @@
     :definitions:
       :posts:
         :rules:
-          :body: :body_data
+          :body: :preserve_body
         :class: Post
         :unicity: :id
         :collection:

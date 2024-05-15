@@ -6,28 +6,29 @@ module Fixturizer
             attr_reader :generated
             
             def initialize(filename:)
-                @rules = read_rules(filename: filename)
-                @generations = @rules[:fixtures].dig(:rules,:generation)
-                @models = @rules[:fixtures][:models][:definitions]
-                @order = @rules[:fixtures][:models].include?(:order) ? @rules[:fixtures][:models][:order] : false
+                @configuration = Fixturizer::Configuration::new filename: './config/rules.yml'
+                @rules = @configuration.rules
+                @models = @configuration.models
+                @order = @configuration.models_order
+                @type = @configuration.models_type
                 @generated = Hash::new
-                self.extend ADAPTERS[@rules[:fixtures][:models][:type]]
+                self.extend ADAPTERS[@type]
             end
             
             
-            def link_data
+            def populate
+                generate_data
+                inject_data
+                return true
             end
             
             def generate_data
                 @generated.clear
-                raise 'Order field format missmatch, not an array' unless @order == false || @order.class == Array
-                
+                raise 'Order field format missmatch, not an array' unless @order.nil? || @order.is_a?(Array)
                 if @order then
                     raise 'Order field size missmatch for configurate definitions' unless @order.size == @models.size
-                    
                     @order.each do |item|
                         raise "Definition #{item} not found in models definitions" unless @models.include?(item)
-                        
                         @generated[item] = generate_collection(name: item)
                     end
                 else
@@ -51,25 +52,19 @@ module Fixturizer
             end
             
             private
-            def read_rules(filename:)
-                return YAML.load(File::readlines(filename).join)
-            end
             
             def generate_collection(name:)
                 data = @models[name][:collection].dup
                 data.each do |item|
-                    
-                    item[:attributes].each do |key, _value| 
-                        if @models[name].include?(:rules) && @models[name][:rules].include?(key) then
-                            rule = @generations[@models[name][:rules][key]]
-                            item[:attributes][key] = eval("lambda { #{rule[:proc]} } ").call unless rule.dig(:preserve) == true and !item[:attributes][key].nil?
-                        end
-                    end
-                    
+                    dataset = {}
+                    dataset[:definition] = item[:attributes]
+                    dataset[:rules] = @models[name][:rules]
+                    item[:attributes] = Fixturizer::Engines::Dataset::new(dataset: dataset).generate
                 end
                 return data
             end
+            
+            
         end
     end
 end
- 

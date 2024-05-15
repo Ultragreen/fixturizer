@@ -5,7 +5,8 @@
             include Singleton
 
             def generate(dataset: )
-                p dataset
+                engine = Fixturizer::Engines::Dataset::new dataset: dataset
+                p engine.generate
             end
         end
     end
