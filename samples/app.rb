@@ -7,10 +7,10 @@ require 'mongoid'
 Mongoid.configure do |config|
   config.clients.default = {
     uri: 'mongodb://localhost:27017/testbase'
+
   }
   config.belongs_to_required_by_default = false
 end
-
 
 class Post
   include Mongoid::Document

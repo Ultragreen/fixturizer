@@ -1,5 +1,6 @@
 require "bundler/setup"
 require "fixturizer/rspec/prepare"
+require_relative '../app'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
