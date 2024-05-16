@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+Fixturizer::Services.configure do |settings|
+  settings.configuration_filename = './config/rules.yml'
+  settings.log_target = '/tmp/fixturizer.log'
+end
+
 RSpec.describe 'Test Fixturizer' do
   context 'Records : test fixturizing' do
     it 'must be possible to apply non preserving rule by definition' do
