@@ -5,12 +5,13 @@ namespace :fixturizer do
     desc 'Drop database'
     task :drop do
       Fixturizer::Services.get.engine(name: :models).drop_database
-      # Fixturizer::Engines::Models::new(filename: './config/rules.yml').drop_database
+      puts "Database successfully dropped" if Fixturizer::Services.settings.verbose
     end
 
     desc 'Populate database'
     task :populate do
       Fixturizer::Services.get.engine(name: :models).populate
+      puts "Database successfully populated" if Fixturizer::Services.settings.verbose
     end
 
     desc 'Check database connection'

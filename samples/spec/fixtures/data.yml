@@ -1,0 +1,6 @@
+---
+body: test Body
+list: 
+  - "one"
+  - 2
+  - {three: 3}

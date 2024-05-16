@@ -12,7 +12,7 @@ module Fixturizer
           options[:to_file] = to_file
           Fixturizer::Services.get.serializer(name: format,
                                               parameters: {
-                                                data:, options:
+                                                data: data, options: options
                                               }).apply
         end
       end

@@ -35,6 +35,10 @@ module Fixturizer
       service(type: :engines, name:, parameters:)
     end
 
+    def getter(name:, parameters: nil)
+        service(type: :getters, name:, parameters:)
+      end
+
     def serializer(name:, parameters: nil)
       service(type: :serializers, name:, parameters:)
     end

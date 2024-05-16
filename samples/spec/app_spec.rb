@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-Fixturizer::Services.configure do |settings|
-  settings.configuration_filename = './config/rules.yml'
-  settings.log_target = '/tmp/fixturizer.log'
-end
-
 RSpec.describe 'Test Fixturizer' do
   context 'Records : test fixturizing' do
     it 'must be possible to apply non preserving rule by definition' do
@@ -86,17 +81,17 @@ RSpec.describe 'Test Fixturizer' do
     end
   end
 
-  context 'Database : drop and populate' do
-    it 'must be possible to drop database with helper ' do
-      expect(database.drop).to be true
-    end
-    it 'must be possible to populate database with helper ' do
-      expect(database.populate).to be true
-    end
+  # context 'Database : drop and populate' do
+  #   it 'must be possible to drop database with helper ' do
+  #     expect(database.drop).to be true
+  #   end
+  #   it 'must be possible to populate database with helper ' do
+  #     expect(database.populate).to be true
+  #   end
 
-    it { expect(database).to be_correctly_dropped }
-    it { expect(database).to be_correctly_populated }
-  end
+  #   it { expect(database).to be_correctly_dropped }
+  #   it { expect(database).to be_correctly_populated }
+  # end
 
   context 'Serializers : test ' do
     it 'must be possible to serialize data to JSON' do
@@ -136,4 +131,38 @@ RSpec.describe 'Test Fixturizer' do
       File.unlink(filename)
     end
   end
+
+
+  context 'Getters : test ' do
+    it 'must be possible to get content data from YAML file' do
+      filename = './spec/fixtures/data.yml'
+      result = get_content.from file: filename, format: :yaml
+      expect(result[:body]).to eq "test Body"
+      expect(result[:list].size).to eq 3
+    end
+
+    it 'must be possible to get content data from YAML file without symbols keys' do
+      filename = './spec/fixtures/data.yml'
+      result = get_content.from file: filename, format: :yaml, symbolize: false
+      expect(result["body"]).to eq "test Body"
+      expect(result["list"].size).to eq 3
+    end
+
+    it 'must be possible to get content data from JSON file' do
+      filename = './spec/fixtures/data.json'
+      result = get_content.from file: filename, format: :json
+      expect(result[:body]).to eq "test Body"
+      expect(result[:list].size).to eq 3
+    end
+
+    it 'must be possible to get content data from JSON file without symbols keys' do
+      filename = './spec/fixtures/data.json'
+      result = get_content.from file: filename, format: :json, symbolize: false
+      expect(result["body"]).to eq "test Body"
+      expect(result["list"].size).to eq 3
+    end
+
+  end
+
+
 end

@@ -19,3 +19,10 @@ task :routes do
 end
 
 require 'fixturizer/rake/manage'
+
+
+Fixturizer::Services.configure do |settings|
+  settings.configuration_filename = './config/rules.yml'
+  settings.log_target = '/tmp/fixturizer.log'
+  settings.verbose = (ENV['VERBOSE'])? true : false
+end

@@ -2,6 +2,12 @@
 
 require 'bundler/setup'
 require 'fixturizer/rspec/prepare'
+
+Fixturizer::Services.configure do |settings|
+  settings.configuration_filename = './config/rules.yml'
+  settings.log_target = '/tmp/fixturizer.log'
+end
+
 require_relative '../app'
 
 RSpec.configure do |config|
