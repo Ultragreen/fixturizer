@@ -7,7 +7,7 @@ gem 'rackup', '~> 2.1'
 gem 'sinatra', '~> 4.0.0'
 
 group :test, :development do
-  gem 'fixturizer', '~> 0.4.0'
+  gem 'fixturizer'
   gem 'rack-rest-rspec', '~> 0.0.3'
   gem 'rack-test', '~> 2.0.2'
   gem 'rake', '~> 13.0'
