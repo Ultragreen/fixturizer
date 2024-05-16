@@ -15,19 +15,27 @@ module Fixturizer
         def initialize
             @configuration = Fixturizer::Configuration::new filename: @@settings.configuration_filename
             @log = Logger::new(Fixturizer::Services.settings.log_target)
-            #@log = Logger::new(STDOUT)
+            log.info "Starting new Fixturing"
 
         end
 
-        def engine(name: , parameters: nil)
-            engine = "Fixturizer::Engines::#{name.to_s.capitalize}"
-            log.info "running Service : #{engine}"
+        def service(type:, name: , parameters: nil)
+            service = "Fixturizer::#{type.to_s.capitalize}::#{name.to_s.capitalize}"
+            log.info "running Service : #{service}"
             if parameters.nil? then
-                return Object.const_get(engine)::new
+                return Object.const_get(service)::new
             else
                 log.info "  => params : #{parameters}"
-                return Object.const_get(engine)::new **parameters
+                return Object.const_get(service)::new **parameters
             end
+        end
+
+        def engine(name: , parameters: nil)
+            service(type: :engines, name: name, parameters: parameters)
+        end
+
+        def serializer(name: , parameters: nil)
+            service(type: :serializers, name: name , parameters: parameters)
         end
 
 

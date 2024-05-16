@@ -106,4 +106,46 @@ RSpec.describe 'Test Fixturizer' do
       
     end
 
+
+    context 'Serializers : test ' do
+
+      it "must be possible to serialize data to JSON" do    
+        data = {name: "test data", body: "placeholder"}
+        result =  serialize.to format: :json, data: data
+        expect(result).to be_an_instance_of(String)
+        expect(result.size).to eq(51)
+      end
+
+      it "must be possible to serialize data to JSON in raw format" do    
+        data = {name: "test data", body: "placeholder"}
+        result =  serialize.to format: :json, data: data, raw: true
+        expect(result).to be_an_instance_of(String)
+        expect(result.size).to eq(41)
+      end
+
+      it "must be possible to serialize data to JSON and write in a file" do    
+        data = {name: "test data", body: "placeholder"}
+        filename = "/tmp/test.json"
+        result =  serialize.to format: :json, data: data, to_file: filename
+        expect(File::exist?(filename)).to eq true
+        File::unlink(filename)
+      end
+
+      it "must be possible to serialize data to YAML" do    
+        data = {name: "test data", body: "placeholder"}
+        result =  serialize.to format: :yaml, data: data
+        expect(result).to be_an_instance_of(String)
+        expect(result.size).to eq(40)
+      end
+
+      it "must be possible to serialize data to YAML and write in a file" do    
+        data = {name: "test data", body: "placeholder"}
+        filename = "/tmp/test.yml"
+        result =  serialize.to format: :yaml, data: data, to_file: filename
+        expect(File::exist?(filename)).to eq true
+        File::unlink(filename)
+      end
+
+    end 
+
 end

@@ -1,3 +1,5 @@
+require 'version'
+
 module Fixturizer
-  VERSION = "0.1.0"
+  VERSION = Version.current
 end
