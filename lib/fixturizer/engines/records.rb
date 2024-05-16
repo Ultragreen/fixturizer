@@ -3,7 +3,8 @@ module Fixturizer
         class Record    
 
             def initialize(value:, rule: )
-                @configuration = Fixturizer::Configuration::new filename: './config/rules.yml'
+                #@configuration = Fixturizer::Configuration::new filename: './config/rules.yml'
+                @configuration = Fixturizer::Services.get.configuration
                 @rules = @configuration.rules
                 @record  = value
                 @rule = (rule.is_a?(Symbol))? @rules[rule] : rule

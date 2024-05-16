@@ -6,8 +6,7 @@
                 include Singleton
                 
                 def generate(dataset: )
-                    engine = Fixturizer::Engines::Dataset::new dataset: dataset
-                    return engine.generate
+                    return Fixturizer::Services.get.engine(name: :dataset, parameters: {dataset: dataset}).generate
                 end
             end
         end

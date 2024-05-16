@@ -6,7 +6,7 @@ module Fixturizer
 
             def initialize(dataset: )
                 @name = dataset
-                @configuration = Fixturizer::Configuration::new filename: './config/rules.yml'
+                @configuration = Fixturizer::Services.get.configuration
                 @dataset = (dataset.is_a?(Symbol))? @configuration.datasets[@name] : dataset
                 @effectives_rules  = @dataset[:rules]
             end
@@ -20,7 +20,7 @@ module Fixturizer
             private
             def apply_rule(key, value, rule)
                 if @effectives_rules.key? key then
-                   value = Fixturizer::Engines::Record::new(value: value, rule: rule).apply
+                  value = Fixturizer::Services.get.engine(name: :record , parameters: {value: value, rule: rule}).apply
                 end
                 return value
             end

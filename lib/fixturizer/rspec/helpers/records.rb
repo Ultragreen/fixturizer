@@ -6,8 +6,7 @@
                 include Singleton
 
                 def apply(value: , rule:)
-                    engine = Fixturizer::Engines::Record::new value: value, rule: rule
-                    return engine.apply
+                    return Fixturizer::Services.get.engine(name: :record, parameters: {value: value, rule: rule}).apply
                 end
             end
         end

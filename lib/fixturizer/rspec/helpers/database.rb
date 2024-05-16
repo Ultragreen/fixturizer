@@ -7,7 +7,7 @@ module Fixturizer
                 
                 def drop
                     begin
-                        Fixturizer::Engines::Models::new(filename: './config/rules.yml').drop_database
+                        Fixturizer::Services.get.engine(name: :models).drop_database
                     rescue StandardError
                         return false
                     end
@@ -16,7 +16,7 @@ module Fixturizer
                 
                 def populate
                     begin
-                        Fixturizer::Engines::Models::new(filename: './config/rules.yml').populate
+                        Fixturizer::Services.get.engine(name: :models).populate
                     rescue StandardError
                         return false
                     end

@@ -5,8 +5,8 @@ module Fixturizer
             
             attr_reader :generated
             
-            def initialize(filename:)
-                @configuration = Fixturizer::Configuration::new filename: './config/rules.yml'
+            def initialize
+                @configuration = Fixturizer::Services.get.configuration
                 @rules = @configuration.rules
                 @models = @configuration.models
                 @order = @configuration.models_order
@@ -59,7 +59,7 @@ module Fixturizer
                     dataset = {}
                     dataset[:definition] = item[:attributes]
                     dataset[:rules] = @models[name][:rules]
-                    item[:attributes] = Fixturizer::Engines::Dataset::new(dataset: dataset).generate
+                    item[:attributes] = Fixturizer::Services.get.engine(name: :dataset, parameters: {dataset: dataset}).generate
                 end
                 return data
             end
