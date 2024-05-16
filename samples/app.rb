@@ -3,7 +3,6 @@
 require 'sinatra'
 require 'mongoid'
 
-
 Mongoid.configure do |config|
   config.clients.default = {
     uri: 'mongodb://localhost:27017/testbase'
@@ -18,6 +17,7 @@ class Post
   field :body, type: String
   has_many :comments
 end
+
 class Comment
   include Mongoid::Document
   field :name, type: String
@@ -26,21 +26,18 @@ class Comment
 end
 
 class Application < Sinatra::Base
-
-
   before do
-      content_type 'application/json'
+    content_type 'application/json'
   end
-  
+
   get '/posts' do
     Post.all.to_json
   end
-  
+
   get '/posts/:post_id' do |post_id|
     post = Post.find(post_id)
     post.attributes.merge(
-      comments: post.comments,
+      comments: post.comments
     ).to_json
   end
-
 end

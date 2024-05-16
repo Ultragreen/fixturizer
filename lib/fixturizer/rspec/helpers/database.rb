@@ -1,33 +1,25 @@
 module Fixturizer
-    module Rspec
-        module Helpers
-            class Database
-                
-                include Singleton
-                
-                def drop
-                    begin
-                        Fixturizer::Services.get.engine(name: :models).drop_database
-                    rescue StandardError
-                        return false
-                    end
-                end
-                
-                
-                def populate
-                    begin
-                        Fixturizer::Services.get.engine(name: :models).populate
-                    rescue StandardError
-                        return false
-                    end
-                end
-            end
+  module Rspec
+    module Helpers
+      class Database
+        include Singleton
+
+        def drop
+          Fixturizer::Services.get.engine(name: :models).drop_database
+        rescue StandardError
+          false
         end
+
+        def populate
+          Fixturizer::Services.get.engine(name: :models).populate
+        rescue StandardError
+          false
+        end
+      end
     end
+  end
 end
 
 def database
-    return Fixturizer::Rspec::Helpers::Database.instance
+  Fixturizer::Rspec::Helpers::Database.instance
 end
-
-

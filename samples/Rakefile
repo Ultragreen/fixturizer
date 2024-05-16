@@ -7,11 +7,9 @@ RSpec::Core::RakeTask.new do |task|
   task.pattern = 'spec/**/*_spec.rb'
 end
 
-
 desc 'List defined routes'
 task :routes do
-
-Application.routes.map do |method, routes|
+  Application.routes.map do |method, routes|
     routes.map { |r| r.first.to_s }.map do |route|
       "#{method.rjust(7, ' ')} #{route}"
     end

@@ -59,5 +59,3 @@ desc 'Run SBOM CycloneDX Xml format file'
 task :sbom do
   system('cyclonedx-ruby -p .')
 end
-
-

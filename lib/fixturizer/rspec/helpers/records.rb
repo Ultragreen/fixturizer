@@ -1,18 +1,17 @@
- module Fixturizer
-    module Rspec 
-        module Helpers
-            class Records
+module Fixturizer
+  module Rspec
+    module Helpers
+      class Records
+        include Singleton
 
-                include Singleton
-
-                def apply(value: , rule:)
-                    return Fixturizer::Services.get.engine(name: :record, parameters: {value: value, rule: rule}).apply
-                end
-            end
+        def apply(value:, rule:)
+          Fixturizer::Services.get.engine(name: :record, parameters: { value:, rule: }).apply
         end
+      end
     end
+  end
 end
 
 def record
-    return Fixturizer::Rspec::Helpers::Records.instance
+  Fixturizer::Rspec::Helpers::Records.instance
 end
