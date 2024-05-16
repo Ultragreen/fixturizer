@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rspec/core/rake_task'
-require_relative './app'
+require_relative 'app'
 
 RSpec::Core::RakeTask.new do |task|
   task.pattern = 'spec/**/*_spec.rb'

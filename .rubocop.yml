@@ -1,0 +1,80 @@
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+
+# Offense count: 2
+# Configuration parameters: AllowedMethods, AllowedPatterns, CountRepeatedAttributes.
+Metrics/AbcSize:
+  Max: 34
+
+# Offense count: 3
+# Configuration parameters: CountComments, CountAsOne, AllowedMethods, AllowedPatterns.
+# AllowedMethods: refine
+Metrics/BlockLength:
+  Max: 114
+
+# Offense count: 2
+# Configuration parameters: AllowedMethods, AllowedPatterns.
+Metrics/CyclomaticComplexity:
+  Max: 9
+
+# Offense count: 4
+# Configuration parameters: CountComments, CountAsOne, AllowedMethods, AllowedPatterns.
+Metrics/MethodLength:
+  Max: 15
+
+# Offense count: 1
+# Configuration parameters: AllowedMethods, AllowedPatterns.
+Metrics/PerceivedComplexity:
+  Max: 9
+
+# Offense count: 1
+Security/Eval:
+  Exclude:
+    - 'lib/fixturizer/engines/records.rb'
+
+# Offense count: 1
+Style/ClassVars:
+  Exclude:
+    - 'lib/fixturizer/services.rb'
+
+# Offense count: 17
+# Configuration parameters: AllowedConstants.
+Style/Documentation:
+  Exclude:
+    - 'spec/**/*'
+    - 'test/**/*'
+    - 'lib/fixturizer/adapters/mongoid.rb'
+    - 'lib/fixturizer/configuration.rb'
+    - 'lib/fixturizer/engines/datasets.rb'
+    - 'lib/fixturizer/engines/models.rb'
+    - 'lib/fixturizer/engines/records.rb'
+    - 'lib/fixturizer/rspec/helpers/database.rb'
+    - 'lib/fixturizer/rspec/helpers/datasets.rb'
+    - 'lib/fixturizer/rspec/helpers/records.rb'
+    - 'lib/fixturizer/rspec/helpers/serializer.rb'
+    - 'lib/fixturizer/serializers/init.rb'
+    - 'lib/fixturizer/serializers/json.rb'
+    - 'lib/fixturizer/serializers/yaml.rb'
+    - 'lib/fixturizer/services.rb'
+    - 'lib/fixturizer/settings.rb'
+    - 'samples/app.rb'
+
+# Offense count: 1
+# This cop supports safe autocorrection (--autocorrect).
+Style/EvalWithLocation:
+  Exclude:
+    - 'lib/fixturizer/engines/records.rb'
+
+# Offense count: 1
+Style/MultilineBlockChain:
+  Exclude:
+    - 'samples/Rakefile'
+
+Gemspec/DevelopmentDependencies:
+  Exclude:
+    - 'fixturizer.gemspec'
+
+Style/DocumentDynamicEvalDefinition:
+  Exclude:
+    - 'lib/fixturizer/engines/records.rb'
