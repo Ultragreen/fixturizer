@@ -1,4 +1,3 @@
-
 module Fixturizer
     module Engines
         class Dataset
@@ -9,10 +8,8 @@ module Fixturizer
                 @name = dataset
                 @configuration = Fixturizer::Configuration::new filename: './config/rules.yml'
                 @dataset = (dataset.is_a?(Symbol))? @configuration.datasets[@name] : dataset
-                @rules = @configuration.rules
                 @effectives_rules  = @dataset[:rules]
             end
-
 
             def generate
                 data = @dataset[:definition]
@@ -21,10 +18,9 @@ module Fixturizer
             end
 
             private
-            def map_value(key, value)
-                return value if @effectives_rules.nil? 
+            def apply_rule(key, value, rule)
                 if @effectives_rules.key? key then
-                    value = eval("lambda { #{@rules[@effectives_rules[key]][:proc]} } ").call unless @rules[@effectives_rules[key]].dig(:preserve) == true and !value.nil?
+                   value = Fixturizer::Engines::Record::new(value: value, rule: rule).apply
                 end
                 return value
             end
@@ -36,15 +32,13 @@ module Fixturizer
                   if value.is_a? Hash
                     result[key] = substitute_values(value)
                   elsif value.is_a?(Array)
-#                    result[key] = value.map { |v| v.is_a?(Hash)? substitute_values(v) : v }
                     result[key] = value.map { |v| substitute_values(v) }
                   else
-                    result[key] = map_value(key, value)
+                    result[key] =  (@effectives_rules.nil?)? value : apply_rule(key, value, @effectives_rules[key])
                   end
                 end
               end
             
-              
 
         end
     end

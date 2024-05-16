@@ -1,52 +1,16 @@
 ---
 :fixtures:
   :datasets:
-    :set1:
-      :rules:
-        :body: :body
+    :myset:
       :definition:
-        :name: test dataset
-        :body: test placeholderbody
-    :set2:
-      :definition:
-        :name: test dataset 2
-        :body: 
-      :rules:
-        :body: :body
-    :set3:
-      :definition:
-        :name: test dataset 3 
-        :body: test preserved
-      :rules:
-        :body: :preserve_body
-    :set4:
-      :definition:
-        :name: test dataset 4
-        :nested:
-          :body: 
-      :rules:
-        :body: :body
-    :set5:
-      :definition:
-        :name: test dataset 5
-        :list:
-         - 1
-         - :body: 
-         - 3
-        :nested:
-          :body: 
-      :rules:
-        :body: :body
-    :set6:
-      :definition:
-        - :name: test dataset 6
+        - :name: test dataset
           :list:
             - 1
             - :body: 
             - 3
           :nested:
             :body:
-        - "deux" 
+        - "two" 
       :rules:
         :body: :body
   :rules:
