@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Fixturizer
   module Engines
     class Record
@@ -13,7 +15,7 @@ module Fixturizer
         result = @record
         return result if @rule.nil?
 
-        result = eval("lambda { #{@rule[:proc]} } ").call unless @rule.dig(:preserve) == true and !@record.nil?
+        result = eval("lambda { #{@rule[:proc]} } ").call unless (@rule[:preserve] == true) && !@record.nil?
         result
       end
     end

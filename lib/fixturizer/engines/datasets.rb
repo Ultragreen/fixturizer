@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Fixturizer
   module Engines
     class Dataset
@@ -29,9 +31,10 @@ module Fixturizer
         return obj unless obj.is_a? Hash
 
         obj.each_with_object({}) do |(key, value), result|
-          result[key] = if value.is_a? Hash
+          result[key] = case value
+                        when Hash
                           substitute_values(value)
-                        elsif value.is_a?(Array)
+                        when Array
                           value.map { |v| substitute_values(v) }
                         else
                           @effectives_rules.nil? ? value : apply_rule(key, value, @effectives_rules[key])

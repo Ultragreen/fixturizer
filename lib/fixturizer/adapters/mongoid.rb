@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Fixturizer
   module Adapters
     module Mongoid
@@ -40,7 +42,7 @@ module Fixturizer
           client = ::Mongo::Client.new("mongodb://#{node}/#{dbname}")
           client.database_names
           return true
-        rescue ::Mongo::Auth::Unauthorized, Mongo::Error => e
+        rescue ::Mongo::Auth::Unauthorized, Mongo::Error
           return false
         end
         res

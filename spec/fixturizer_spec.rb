@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Fixturizer do
   it 'has a version number' do
     expect(Fixturizer::VERSION).not_to be nil

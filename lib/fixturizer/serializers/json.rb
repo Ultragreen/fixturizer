@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 module Fixturizer
   module Serializers
     class Json < Template
       def apply
-        result = ''
         result = if @options[:raw]
                    @data.to_json
                  else

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'dependencies'
 require_relative 'fixturizer/settings'
 require_relative 'fixturizer/configuration'

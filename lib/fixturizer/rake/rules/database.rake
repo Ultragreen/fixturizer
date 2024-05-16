@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :fixturizer do
   namespace :database do
     desc 'Drop database'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Fixturizer
   module Serializers
     class Template
@@ -14,9 +16,9 @@ module Fixturizer
 
       def write_file(file, data)
         File.write(file, data)
-      rescue Errno::EACCES => e
+      rescue Errno::EACCES
         puts "Error: Permission denied to write the file #{file}."
-      rescue Errno::ENOSPC => e
+      rescue Errno::ENOSPC
         puts 'Error: No space left on the device.'
       rescue StandardError => e
         puts "Error: #{e.message}"

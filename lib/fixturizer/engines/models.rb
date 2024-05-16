@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Fixturizer
   module Engines
     class Models
-      ADAPTERS = { mongoid: ::Fixturizer::Adapters::Mongoid }
+      ADAPTERS = { mongoid: ::Fixturizer::Adapters::Mongoid }.freeze
 
       attr_reader :generated
 
@@ -34,7 +36,7 @@ module Fixturizer
             @generated[item] = generate_collection(name: item)
           end
         else
-          @models.each do |key, _value|
+          @models.each_key do |key|
             @generated[key] = generate_collection(name: key)
           end
         end

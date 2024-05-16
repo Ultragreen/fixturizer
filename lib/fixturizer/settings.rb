@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Fixturizer
   class Settings
     attr_accessor :configuration_filename, :log_target

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Test Fixturizer' do
   context 'Records : test fixturizing' do
     it 'must be possible to apply non preserving rule by definition' do
@@ -109,7 +111,7 @@ RSpec.describe 'Test Fixturizer' do
     it 'must be possible to serialize data to JSON and write in a file' do
       data = { name: 'test data', body: 'placeholder' }
       filename = '/tmp/test.json'
-      result = serialize.to format: :json, data:, to_file: filename
+      serialize.to format: :json, data:, to_file: filename
       expect(File.exist?(filename)).to eq true
       File.unlink(filename)
     end
@@ -124,7 +126,7 @@ RSpec.describe 'Test Fixturizer' do
     it 'must be possible to serialize data to YAML and write in a file' do
       data = { name: 'test data', body: 'placeholder' }
       filename = '/tmp/test.yml'
-      result = serialize.to format: :yaml, data:, to_file: filename
+      serialize.to format: :yaml, data:, to_file: filename
       expect(File.exist?(filename)).to eq true
       File.unlink(filename)
     end
