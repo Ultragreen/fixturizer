@@ -3,29 +3,27 @@
 module Fixturizer
   module Adapters
     module Mongoid
-      def injector(model_infos:, item:)
-        model = Object.const_get(model_infos[:class])
-        model.create!(item) unless model.where(model_infos[:unicity] => item[model_infos[:unicity]]).exists?
-      end
+      def inject_data
+        list = (@orders.is_a? Array)? @order : @generated.keys
+        list.each do |name|
+          records = @generated[name]
+          records.each do |record|
+            link = record.dig(:link,:to)
+            by = record.dig(:link,:by)
+            pattern = record.dig(:link,:search_by)
+            if link.is_a? Symbol then
+              model = Object.const_get(@models[link][:class]).find_by(**pattern).send by
+              model.create!(record[:data]) unless model.where(@models[link][:unicity] => record[:data][@models[link][:unicity]]).exists?
+            else
+              model = Object.const_get(@models[name][:class])
+              model.create!(record[:data]) unless model.where(@models[name][:unicity] => record[:data][@models[name][:unicity]]).exists?
+            end
 
-      def binder(item:)
-        result = {}
-        item.each do |element|
-          model_class = @models[element[:collection]][:class]
-          model = Object.const_get(model_class)
-          if element[:index].include?(:at)
-            result[element[:fkey]] = model.all[element[:index][:at] - 1][element[:pkey]].to_s
-          elsif element[:index].include?(:search_key)
-            raise 'Links configuration failure' unless element[:index].include?(:for)
-
-            result[element[:fkey]] =
-              model.where({ element[:index][:search_key] => element[:index][:for] }).first[element[:pkey]]
-          else
-            raise 'Links configuration failure'
           end
+          
         end
-        result
       end
+
 
       def drop_database
         ::Mongoid.purge!

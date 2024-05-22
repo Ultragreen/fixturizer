@@ -81,17 +81,17 @@ RSpec.describe 'Test Fixturizer' do
     end
   end
 
-  # context 'Database : drop and populate' do
-  #   it 'must be possible to drop database with helper ' do
-  #     expect(database.drop).to be true
-  #   end
-  #   it 'must be possible to populate database with helper ' do
-  #     expect(database.populate).to be true
-  #   end
+  context 'Database : drop and populate' do
+    it 'must be possible to drop database with helper ' do
+      expect(database.drop).to be true
+    end
+    it 'must be possible to populate database with helper ' do
+      expect(database.populate).to be true
+    end
 
-  #   it { expect(database).to be_correctly_dropped }
-  #   it { expect(database).to be_correctly_populated }
-  # end
+    it { expect(database).to be_correctly_dropped }
+    it { expect(database).to be_correctly_populated }
+  end
 
   context 'Serializers : test ' do
     it 'must be possible to serialize data to JSON' do

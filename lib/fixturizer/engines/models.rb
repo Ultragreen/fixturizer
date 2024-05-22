@@ -5,11 +5,10 @@ module Fixturizer
     class Models
       ADAPTERS = { mongoid: ::Fixturizer::Adapters::Mongoid }.freeze
 
-      attr_reader :generated
+      attr_reader :generated, :order, :models
 
       def initialize
         @configuration = Fixturizer::Services.get.configuration
-        @rules = @configuration.rules
         @models = @configuration.models
         @order = @configuration.models_order
         @type = @configuration.models_type
@@ -18,12 +17,12 @@ module Fixturizer
       end
 
       def populate
-        generate_data
-        inject_data
+        generate
+        inject
         true
       end
 
-      def generate_data
+      def generate
         @generated.clear
         raise 'Order field format missmatch, not an array' unless @order.nil? || @order.is_a?(Array)
 
@@ -32,41 +31,35 @@ module Fixturizer
 
           @order.each do |item|
             raise "Definition #{item} not found in models definitions" unless @models.include?(item)
-
-            @generated[item] = generate_collection(name: item)
+            @generated[item]  = generate_collection(name: item)
           end
         else
-          @models.each_key do |key|
-            @generated[key] = generate_collection(name: key)
+          @models.each_key do |item|
+            @generated[item] = generate_collection(name: item)
           end
+
         end
       end
 
-      def inject_data
+      def inject
         raise 'Data not generated' if @generated.empty?
-
-        @generated.each do |key, value|
-          model_infos = @models[key].dup
-          model_infos.delete(:collection)
-          value.each do |item|
-            item[:attributes].merge!(binder(item: item[:links])) if item.include?(:links)
-            injector model_infos:, item: item[:attributes]
-          end
-        end
+        inject_data
       end
 
       private
 
       def generate_collection(name:)
-        data = @models[name][:collection].dup
-        data.each do |item|
-          dataset = {}
-          dataset[:definition] = item[:attributes]
-          dataset[:rules] = @models[name][:rules]
-          item[:attributes] =
-            Fixturizer::Services.get.engine(name: :dataset, parameters: { dataset: }).generate
+        data = []
+        @models[name][:collection].each do |item|
+          res = {data: Fixturizer::Services.get.engine(name: :dataset, parameters: { dataset: 
+              { definition: item[:attributes], rules: @models[name][:rules]}
+               }).generate  }
+          link = item.dig(:link)
+          res[:link] = link if link
+          data.push res 
+          
         end
-        data
+        return data
       end
     end
   end

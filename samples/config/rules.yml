@@ -13,6 +13,7 @@
         - "two" 
       :rules:
         :body: :body
+
   :rules:
     :body: 
       :proc: "SecureRandom.urlsafe_base64(64)"
@@ -29,7 +30,7 @@
         :rules:
           :body: :preserve_body
         :class: Post
-        :unicity: :id
+        :unicity: :title
         :collection:
           - :attributes:
               :title: First post Title
@@ -44,9 +45,8 @@
           - :attributes:
               :name: test name
               :message: test message
-            :links:
-              - :collection: :posts
-                :index:
-                  :at: 1
-                :fkey: :post
-                :pkey: :id
+            :link:
+              :to: :posts
+              :by: :comments
+              :search_by:  
+                :title: First post Title
