@@ -23,9 +23,20 @@
   :models:
     :type: :mongoid
     :order:
+      - :types
       - :posts
       - :comments
     :definitions:
+      :types:
+        :class: Type
+        :unicity: :name
+        :collection:
+          - :attributes:
+              :name: News
+              :description: A fresh news
+          - :attributes:
+              :name: Reaction
+              :description: An instant reaction
       :posts:
         :rules:
           :body: :preserve_body
@@ -35,6 +46,11 @@
           - :attributes:
               :title: First post Title
               :body: First Post Body
+              # :have: 
+              #   :linked: :types
+              #   :by: :type
+              #   :search_by:
+              #      :name: News
           - :attributes:
               :title: Second post Title
               :body: 
@@ -45,7 +61,7 @@
           - :attributes:
               :name: test name
               :message: test message
-            :link:
+            :belong:
               :to: :posts
               :by: :comments
               :search_by:  

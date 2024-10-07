@@ -16,7 +16,17 @@ class Post
   field :title, type: String
   field :body, type: String
   has_many :comments
+  has_one :type
 end
+
+
+class Type
+  include Mongoid::Document
+  field :name, type: String
+  field :description, type: String
+  belongs_to :post, optional: true
+end
+
 
 class Comment
   include Mongoid::Document
@@ -37,7 +47,8 @@ class Application < Sinatra::Base
   get '/posts/:post_id' do |post_id|
     post = Post.find(post_id)
     post.attributes.merge(
-      comments: post.comments
+      comments: post.comments,
+      type: post.type
     ).to_json
   end
 end

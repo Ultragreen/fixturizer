@@ -54,8 +54,10 @@ module Fixturizer
           res = {data: Fixturizer::Services.get.engine(name: :dataset, parameters: { dataset: 
               { definition: item[:attributes], rules: @models[name][:rules]}
                }).generate  }
-          link = item.dig(:link)
-          res[:link] = link if link
+          belong = item.dig(:belong)
+          res[:belong] = belong if belong
+          have = item.dig(:have)
+          res[:have] = have if have
           data.push res 
           
         end

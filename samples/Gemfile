@@ -11,7 +11,7 @@ group :test, :development do
   gem 'rack-rest-rspec', '~> 0.0.3'
   gem 'rack-test', '~> 2.0.2'
   gem 'rake', '~> 13.0'
-  gem 'rspec', '~> 3.10.0'
+  gem 'rspec', '~> 3.13.0'
 end
 
 gem 'mongoid', '~> 9.0'

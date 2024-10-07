@@ -30,7 +30,7 @@ module Fixturizer
                      :dataset => [:definition, :rules],
                      :models => [:type, :order, :definitions],
                      :model_definition => [:rules,:class,:unicity, :collection],
-                     :collection => [:attributes,:links]
+                     :collection => [:attributes,:belong]
 
     }
   
@@ -197,13 +197,13 @@ module Fixturizer
               definitions.dig(:collection).each_with_index do |record,i|
                 @status[:error].push "//:fixtures/:models/:definitions/:#{name}/:collection[#{i}] not have key :attributes defined" unless record.include? :attributes
                 @status[:error].push "//:fixtures/:models/:definitions/:#{name}/:collection[#{i}]/:attributes is not a Hash" unless record[:attributes].is_a? Hash
-                if record.include? :link
-                  unless record[:link].is_a? Hash then
-                    @status[:error].push "//:fixtures/:models/:definitions/:#{name}/:collection[#{i}]/:link is set but is not a Hash" 
+                if record.include? :belong
+                  unless record[:belong].is_a? Hash then
+                    @status[:error].push "//:fixtures/:models/:definitions/:#{name}/:collection[#{i}]/:belong is set but is not a Hash" 
                   else
                     {to: Symbol, by: Symbol, search_by: Hash}.each do |verb,type|
-                      @status[:error].push "//:fixtures/:models/:definitions/:#{name}/:collection[#{i}]/:link not have key :#{verb} defined" unless record[:link].include? verb
-                      @status[:error].push "//:fixtures/:models/:definitions/:#{name}/:collection[#{i}]/:link/:#{verb} is not a #{type}" unless record[:link][verb].is_a? type
+                      @status[:error].push "//:fixtures/:models/:definitions/:#{name}/:collection[#{i}]/:belong not have key :#{verb} defined" unless record[:belong].include? verb
+                      @status[:error].push "//:fixtures/:models/:definitions/:#{name}/:collection[#{i}]/:belong/:#{verb} is not a #{type}" unless record[:belong][verb].is_a? type
                     end
                   end
                 end

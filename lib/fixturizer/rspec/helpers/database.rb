@@ -14,8 +14,8 @@ module Fixturizer
 
         def populate
           Fixturizer::Services.get.engine(name: :models).populate
-        rescue StandardError
-          false
+        # rescue StandardError
+        #   false
         end
       end
     end

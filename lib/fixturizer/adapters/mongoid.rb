@@ -8,12 +8,12 @@ module Fixturizer
         list.each do |name|
           records = @generated[name]
           records.each do |record|
-            link = record.dig(:link,:to)
-            by = record.dig(:link,:by)
-            pattern = record.dig(:link,:search_by)
+            belong = record.dig(:belong,:to)
+            by = record.dig(:belong,:by)
+            pattern = record.dig(:belong,:search_by)
             if link.is_a? Symbol then
-              model = Object.const_get(@models[link][:class]).find_by(**pattern).send by
-              model.create!(record[:data]) unless model.where(@models[link][:unicity] => record[:data][@models[link][:unicity]]).exists?
+              model = Object.const_get(@models[belong][:class]).find_by(**pattern).send by
+              model.create!(record[:data]) unless model.where(@models[belong][:unicity] => record[:data][@models[belong][:unicity]]).exists?
             else
               model = Object.const_get(@models[name][:class])
               model.create!(record[:data]) unless model.where(@models[name][:unicity] => record[:data][@models[name][:unicity]]).exists?
